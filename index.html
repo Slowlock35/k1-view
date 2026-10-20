@@ -137,7 +137,7 @@ footer b{color:var(--ink2)}
 <div class="lede" id="hLede">Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.</div>
 <div class="rule"></div>
 <div class="modes" id="modes">
-<button class="on" data-m="belanja" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Monitoring TIM</button>
+<button class="on" data-m="belanja" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Timeline TIM</button>
 <button data-m="timeline" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M5 12h9"/><path d="M9 18h10"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="7" cy="18" r="1.6" fill="currentColor" stroke="none"/></svg>Timeline Pengendalian (aktual vs jadwal)</button>
 <button data-m="gap" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>GAP/Deviasi</button>
 <button data-m="output" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></svg>Output Swakelola</button>
@@ -174,7 +174,7 @@ footer b{color:var(--ink2)}
 <div id="tlbody"></div>
 <div class="devbox" id="devbox" hidden></div>
 </section>
-<section id="v-output" hidden>
+<section id="v-output" hidden><div class="note">Keluaran paket sesuai <b>KAK FINAL 30 Sep 2026 &sect;5 (O-01&ndash;O-05)</b> &mdash; Swakelola Tipe I &quot;Inovasi Layanan Berbasis Kepulauan&quot;; status mengikuti realisasi TIM.</div>
 
 <div class="out-card">
 <div class="out-head"><img src="icon-qdi.png" alt="" style="width:34px;height:34px;border-radius:8px">
@@ -196,7 +196,7 @@ footer b{color:var(--ink2)}
 <div class="outstat"><span class="b g">AKTIF</span> internet satelit + managed service jaringan</div></div></div>
 <div class="meta">Infrastruktur konektivitas titik Siau, Melonguane, Tahuna</div>
 </div>
-</section>
+<div class="out-card"><div class="out-head"><div class="pholder">O-03</div><div><div class="nm">Konten Layanan dan Sosialisasi</div><div class="outstat"><span class="b y">PENGEMBANGAN</span> konten bersumber jelas &middot; tervalidasi fungsi teknis &middot; mutakhir dengan metadata</div></div></div><div class="meta">Konten layanan, informasi karantina, dan sosialisasi di portal &mdash; dikelola PPID/Konten dengan mekanisme reviu berkala.</div><div class="meta"><span>Bukti minimum: <b>register konten, SOP konten</b></span></div><span class="btnq off">Menunggu register konten</span></div><div class="out-card"><div class="out-head"><div class="pholder">O-05</div><div><div class="nm">Operasional, Pengujian, dan Adopsi</div><div class="outstat"><span class="b gr">TERJADWAL</span> SOP berversi &middot; UAT terintegrasi temuan tuntas &middot; panduan &middot; adopsi petugas</div></div></div><div class="meta">Penutup paket: SOP, UAT 4 jalur (28 Nov&ndash;5 Des), uji independen, panduan penggunaan, dan Laporan Pelaksanaan hingga serah terima.</div><div class="meta"><span>Bukti minimum: <b>SOP berversi, matriks UAT, Laporan Pelaksanaan</b></span></div><span class="btnq off">Nov&ndash;Des 2026</span></div></section>
 <section id="v-gap" hidden>
 <div class="note">Hanya menampilkan yang ALERT — item belanja dan tahapan dengan status kritis/telat/menyimpang dari sheet SSOT dan F-27. Tidak ada berarti aman.</div>
 <div id="gapstats" class="stats"></div>
