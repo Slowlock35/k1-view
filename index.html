@@ -53,6 +53,7 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font
   transition:border-color .12s,background .12s,color .12s}
 .tabs button:hover{border-color:var(--mut)}
 .tabs button.on{background:var(--tab);border-color:var(--tab);color:var(--tabFg)}
+#gapBadge{display:none;background:#dc2626;color:#fff;border-radius:999px;padding:1px 7px;font:700 10.5px "Sora",system-ui,sans-serif;margin-left:6px;vertical-align:1px}
 .note{font-size:12px;color:var(--mut);margin:8px 0 16px;padding-left:10px;border-left:2px solid var(--brd)}
 /* ===== belanja ===== */
 .card{position:relative;background:var(--card);border:1px solid var(--brd);border-radius:12px;
@@ -160,7 +161,7 @@ footer b{color:var(--ink2)}
 <div class="modes" id="modes">
 <button class="on" data-m="belanja" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Pengendalian Belanja</button>
 <button data-m="timeline" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M5 12h9"/><path d="M9 18h10"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="7" cy="18" r="1.6" fill="currentColor" stroke="none"/></svg>Timeline TIM</button>
-<button data-m="gap" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>GAP/Deviasi</button>
+<button data-m="gap" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>GAP/Deviasi<span id="gapBadge" style="display:none"></span></button>
 <button data-m="output" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></svg>Output Swakelola</button>
 </div>
 <div class="sync" id="sync" hidden><span class="pulse"></span>Sinkronisasi terakhir: <b id="syncTxt">—</b></div>
@@ -384,6 +385,7 @@ document.getElementById("gapstats").outerHTML=
 '</b> &middot; kejar/telat</span></div></div>'+
 '<div class="mini"><span>Kondisi data: tarikan SSOT terakhir</span></div></div>';
 var GL=document.getElementById("gaplist");GL.innerHTML="";
+var gb=document.getElementById("gapBadge");gb.textContent=A.length;gb.style.display=A.length?"inline-block":"none";
 if(!A.length){GL.innerHTML='<div class="acard" style="--alv:var(--done)"><div class="nm">Tidak ada alert</div>'+
 '<div class="act">Seluruh item dan tahapan dalam jalur normal.</div></div>';return;}
 A.forEach(function(a){
