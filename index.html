@@ -41,7 +41,7 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font
 .stat span{font-size:11.5px;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
 .stat.k-late{border-left-color:var(--late)} .stat.k-late b{color:var(--late)}
 .stat.k-done{border-left-color:var(--done)} .stat.k-done b{color:var(--done)}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sync{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--brd);border-radius:999px;padding:8px 16px;margin-bottom:14px;width:fit-content;max-width:100%;box-shadow:var(--sh);font-size:12.5px}.sync b{font-weight:600}.pulse{width:9px;height:9px;border-radius:50%;background:var(--done);flex:0 0 auto;animation:pulsa 2s ease infinite}@keyframes pulsa{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--done) 45%,transparent)}50%{box-shadow:0 0 0 6px transparent}}@media (prefers-reduced-motion:reduce){.pulse{animation:none}}.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:0 0 auto;border:1.5px solid var(--brd);background:var(--card);color:var(--ink2);
   padding:9px 18px;border-radius:8px;font:600 13px "Sora",system-ui,sans-serif;cursor:pointer;white-space:nowrap;
@@ -128,6 +128,7 @@ footer b{color:var(--ink2)}
 <button data-m="timeline" type="button">Timeline Pengendalian (aktual vs jadwal)</button>
 <button data-m="gap" type="button">GAP / Deviasi (alert)</button>
 </div>
+<div class="sync" id="sync" hidden><span class="pulse"></span>Sinkronisasi terakhir: <b id="syncTxt">—</b></div>
 <div class="stats" id="sum"></div>
 <!-- ===== VIEW: BELANJA ===== -->
 <section id="v-belanja">
@@ -229,7 +230,7 @@ c.innerHTML='<div class="stamp">'+stampId(p)+'</div><div class="nm">'+nm+"</div>
 '<div class="meta"><span>TTD SP: <b>'+fD(ttd)+"</b></span>"+(nrk?'<span class="u">NRK: '+(nrkOk?nrk:"jalur UP-VA")+"</span>":"")+(spn?'<span class="u">SP: '+spn+"</span>":"")+"</div>"+
 '<div class="chain">'+chain+"</div>"+(warn?'<div class="warn">'+warn+"</div>":"");
 L.appendChild(c);});
-S.innerHTML='<div class="stat k-done"><b>'+tampil+"</b><span>Item tampil</span></div>"+
+var sy=DATAB.sync||{};document.getElementById("sync").hidden=false;document.getElementById("syncTxt").textContent=(sy.hari?sy.hari+", ":"")+(sy.tanggal||"")+(sy.jam?" — "+sy.jam:"");S.innerHTML='<div class="stat k-done"><b>'+tampil+"</b><span>Item tampil</span></div>"+
 '<div class="stat"><b>'+sp+"/"+ROWS.length+"</b><span>Sudah pesan</span></div>"+
 '<div class="stat k-late"><b>'+kr+"</b><span>Titik kritis</span></div>"+
 '<div class="stat"><b>'+fD(new Date().toISOString())+"</b><span>WITA dibuka</span></div>";
