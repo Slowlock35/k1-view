@@ -142,7 +142,7 @@ var ROWS=D.rows,sp=0,kr=0;
 var L=document.getElementById("list"),S=document.getElementById("sum");
 L.innerHTML="";S.innerHTML="";var tampil=0,idx=0;
 ROWS.forEach(function(r){
-if(!grup(r))return;tampil++;
+if(!grp(r))return;tampil++;
 var it=String(r["Item"]||""),nm=it.replace(/\*+/g,"");
 if(!nm)return;
 var stt=String(r["Status Inaproc"]||"");if(stt==="Sudah Pesan")sp++;
