@@ -2,15 +2,15 @@
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>SSOT K-1 — Pengendalian Belanja</title>
+<title>SSOT K-1 — Pengendalian</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#eef1f6; --card:#ffffff; --ink:#16273b; --ink2:#3d4f66; --mut:#66738a; --brd:#dce2eb; --trk:#e4e9f0;
-  --done:#177245; --run:#b45309; --late:#c2410c; --plan:#8a94a6; --tab:#16273b; --tabFg:#f5f7fa;
-  --pri:#1d4ed8;
+  --done:#177245; --run:#b45309; --late:#c2410c; --plan:#8a94a6; --tab:#16273b; --tabFg:#f5f7fa; --pri:#1d4ed8;
+  --lblw:225px;
   --sh:0 1px 2px rgba(22,39,59,.05), 0 10px 24px -14px rgba(22,39,59,.25);
 }
 @media (prefers-color-scheme:dark){:root{
@@ -25,18 +25,23 @@ body{margin:0;padding:22px 16px 34px;background:var(--paper);color:var(--ink);
 .wrap{max-width:1000px;margin:0 auto}
 .eyebrow{font-family:"Sora",system-ui,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.22em;
   text-transform:uppercase;color:var(--mut);margin:0 0 6px}
-h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,27px);font-weight:700;
-  letter-spacing:-.02em;margin:0 0 4px;color:var(--ink)}
-.lede{color:var(--ink2);font-size:13.5px;margin:0 0 18px}
+h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font-weight:700;
+  letter-spacing:-.02em;margin:0 0 4px}
+.lede{color:var(--ink2);font-size:13.5px;margin:0 0 16px}
 .lede b{color:var(--ink)}
-.rule{height:3px;width:64px;background:var(--ink);border-radius:2px;margin:14px 0 18px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.rule{height:3px;width:64px;background:var(--ink);border-radius:2px;margin:12px 0 16px}
+.modes{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.modes button{border:1.5px solid var(--brd);background:var(--card);color:var(--ink2);
+  padding:11px 22px;border-radius:12px;font:600 13.5px "Sora",system-ui,sans-serif;cursor:pointer;
+  transition:all .12s}
+.modes button.on{background:var(--tab);border-color:var(--tab);color:var(--tabFg);box-shadow:var(--sh)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
 .stat{background:var(--card);border:1px solid var(--brd);border-left:4px solid var(--plan);border-radius:4px 12px 12px 4px;padding:12px 14px;box-shadow:var(--sh)}
-.stat b{display:block;font-family:"Sora",system-ui,sans-serif;font-size:24px;font-weight:600;letter-spacing:-.02em}
+.stat b{display:block;font-family:"Sora",system-ui,sans-serif;font-size:23px;font-weight:600;letter-spacing:-.02em}
 .stat span{font-size:11.5px;color:var(--mut);letter-spacing:.04em;text-transform:uppercase}
 .stat.k-late{border-left-color:var(--late)} .stat.k-late b{color:var(--late)}
 .stat.k-done{border-left-color:var(--done)} .stat.k-done b{color:var(--done)}
-.tabs{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;margin-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:0 0 auto;border:1.5px solid var(--brd);background:var(--card);color:var(--ink2);
   padding:9px 18px;border-radius:8px;font:600 13px "Sora",system-ui,sans-serif;cursor:pointer;white-space:nowrap;
@@ -44,12 +49,12 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,27px);font
 .tabs button:hover{border-color:var(--mut)}
 .tabs button.on{background:var(--tab);border-color:var(--tab);color:var(--tabFg)}
 .note{font-size:12px;color:var(--mut);margin:8px 0 16px;padding-left:10px;border-left:2px solid var(--brd)}
+/* ===== belanja ===== */
 .card{position:relative;background:var(--card);border:1px solid var(--brd);border-radius:12px;
   padding:16px 18px 14px 18px;margin-bottom:14px;box-shadow:var(--sh);overflow:hidden;
-  transition:transform .14s ease,box-shadow .14s ease;animation:in .35s ease both}
-@media (prefers-reduced-motion:reduce){.card{animation:none}.card:hover{transform:none}}
+  transition:transform .14s ease;animation:in .35s ease both}
+@media (prefers-reduced-motion:reduce){.card{animation:none}}
 @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (hover:hover){.card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(22,39,59,.06),0 16px 34px -16px rgba(22,39,59,.3)}}
 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pc,var(--plan))}
 .card[data-pc="done"]{--pc:var(--done)} .card[data-pc="run"]{--pc:var(--run)}
 .card[data-pc="late"]{--pc:var(--late)} .card[data-pc="plan"]{--pc:var(--plan)}
@@ -59,61 +64,115 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,27px);font
   letter-spacing:.16em;text-transform:uppercase;opacity:.95;background:var(--card)}
 .card[data-pc="done"] .stamp{--sc:var(--done)} .card[data-pc="run"] .stamp{--sc:var(--run)}
 .card[data-pc="late"] .stamp{--sc:var(--late)} .card[data-pc="plan"] .stamp{--sc:var(--plan)}
-.nm{font-weight:600;font-size:15px;line-height:1.4;padding-right:96px;color:var(--ink)}
+.nm{font-weight:600;font-size:15px;line-height:1.4;padding-right:110px;color:var(--ink)}
 .meta{display:flex;gap:5px 18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:9px}
 .meta b{color:var(--ink);font-weight:600}
-.meta .u{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:11.5px}
+.meta .u{font-family:ui-monospace,Consolas,monospace;font-size:11.5px}
 .meta a{color:var(--pri);text-decoration:none;font-weight:500}
 .meta a:hover{text-decoration:underline}
 .chain{display:flex;gap:0;margin-top:14px}
-.st{flex:1;position:relative;text-align:center;font-size:9.5px;color:var(--mut);letter-spacing:.03em}
+.st{flex:1;position:relative;text-align:center;font-size:9.5px;color:var(--mut)}
 .st i{display:block;height:5px;border-radius:99px;background:var(--trk);margin:0 3px 5px}
-.st.on i{background:var(--done)}
-.st.on{color:var(--ink2)}
-.st.kri i{background:var(--late)}
-.st.kri{color:var(--late);font-weight:600}
-.st:not(:first-child)::before{content:"";position:absolute;top:2px;left:calc(-50% + 9px);width:calc(100% - 18px);
-  height:1px;background:var(--trk)}
+.st.on i{background:var(--done)} .st.on{color:var(--ink2)}
+.st.kri i{background:var(--late)} .st.kri{color:var(--late);font-weight:600}
 .warn{margin-top:12px;font-size:12px;color:var(--late);background:color-mix(in srgb,var(--late) 8%,var(--card));
   border:1px solid color-mix(in srgb,var(--late) 25%,transparent);border-radius:9px;padding:8px 12px;font-weight:500}
+/* ===== timeline ===== */
+.tl-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-bottom:10px}
+.tl-legend .dot{width:9px;height:6px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:6px 12px;font-size:12px;box-shadow:var(--sh)}
+.chip b{font-family:"Sora",system-ui,sans-serif;font-weight:600}
+.chip .n{color:var(--mut)}
+.chip.warn .n b{color:var(--late)}
+.tl-axis{position:relative;height:20px;margin-left:var(--lblw);border-bottom:1px solid var(--brd);font-size:10.5px;color:var(--mut);font-family:"Sora",system-ui,sans-serif}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.trow{display:grid;grid-template-columns:var(--lblw) 1fr;align-items:center;min-height:26px}
+.tlbl{font-size:12px;line-height:1.3;padding-right:10px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default}
+.trow .track{position:relative;height:15px;background:var(--trk);border-radius:7px;margin:2px 0}
+.tbar{position:absolute;top:3px;height:9px;border-radius:5px;min-width:5px;opacity:.9}
+.tbar.done{background:var(--done)} .tbar.run{background:var(--run)}
+.tbar.late{background:var(--late)} .tbar.plan{background:var(--plan)}
+.tdot{position:absolute;top:4px;width:8px;height:8px;border-radius:50%;background:var(--pri);transform:translateX(-50%);box-shadow:0 0 0 2px var(--paper)}
+.tmark{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--late);opacity:.4;pointer-events:none}
+.tlwrap{position:relative}
+.tl-today{position:absolute;top:0;bottom:0;left:calc(var(--lblw) + (100% - var(--lblw)) * var(--tp,0));width:2px;
+  background:var(--late);z-index:3;pointer-events:none}
+.tl-today b{position:absolute;top:0;left:5px;font:600 10.5px "Sora",system-ui,sans-serif;color:var(--late);white-space:nowrap}
+.tl-grp{font-family:"Sora",system-ui,sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink2);margin:16px 0 6px;padding-left:2px}
+.tl-grp .n{color:var(--mut);letter-spacing:0;text-transform:none;font-weight:500;margin-left:8px}
+.tl-grp .n b{color:var(--late)}
+.devbox{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:12px 16px;margin-top:18px;box-shadow:var(--sh);font-size:12.5px;color:var(--ink2);line-height:1.6}
+.devbox b{color:var(--ink)}
+.devbox .lbl{font-family:"Sora",system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:4px}
 footer{font-size:11.5px;color:var(--mut);margin-top:22px;line-height:1.7}
 footer b{color:var(--ink2)}
-@media (max-width:560px){
+@media (max-width:640px){
   body{padding:16px 12px 26px}
-  .chain{flex-wrap:wrap;gap:6px 0}
-  .st{flex:1 1 25%}
-  .st i{margin:0 5px 4px}
-  .st:not(:first-child)::before{display:none}
-  .nm{font-size:14px;padding-right:0;margin-bottom:6px}
-  .stamp{position:static;display:inline-block;transform:rotate(-3deg);margin-bottom:6px}
+  :root{--lblw:0px}
+  .trow{grid-template-columns:1fr;min-height:0;padding:6px 0;border-bottom:1px solid var(--trk)}
+  .tlbl{white-space:normal;padding:0 0 4px}
+  .tl-axis{margin-left:0}
+  .tl-today{display:none}
+  .tmark{opacity:.55}
 }
 </style></head><body>
 <div class="wrap">
-<div class="eyebrow">SSOT K-1 KEPULAUAN &middot; MONITORING BELANJA</div>
-<h1>Pengendalian Belanja</h1>
-<div class="lede">Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.</div>
+<div class="eyebrow">SSOT K-1 KEPULAUAN &middot; PENGENDALIAN PPK</div>
+<h1 id="hTitle">Pengendalian Belanja</h1>
+<div class="lede" id="hLede">Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.</div>
 <div class="rule"></div>
+<div class="modes" id="modes">
+<button class="on" data-m="belanja" type="button">Pengendalian Belanja</button>
+<button data-m="timeline" type="button">Timeline Pengendalian (aktual vs jadwal)</button>
+</div>
 <div class="stats" id="sum"></div>
-<div class="tabs" id="tabs">
+<!-- ===== VIEW: BELANJA ===== -->
+<section id="v-belanja">
+<div class="tabs" id="tabsB">
 <button class="on" data-t="all" type="button">Semua</button>
 <button data-t="persiapan" type="button">QDI Persiapan</button>
 <button data-t="pelaksana" type="button">Tim Pelaksana</button>
 <button data-t="pengawas" type="button">Tim Pengawas</button>
 </div>
-<div class="note" id="note">Menampilkan seluruh item belanja K-1.</div>
+<div class="note" id="noteB">Menampilkan seluruh item belanja K-1.</div>
 <div id="list"></div>
-<footer><b>Cara baca:</b> jalur hijau = tahap terisi &middot; merah = titik kendali menunggu &middot; stempel = status item. Ketua memperbarui status di sheet SSOT &rarr; halaman ini diperbarui sistem per tarikan (level menit).</footer>
+</section>
+<!-- ===== VIEW: TIMELINE ===== -->
+<section id="v-timeline" hidden>
+<div class="tabs" id="tabsT">
+<button class="on" data-t="all" type="button">Semua tim</button>
+<button data-t="TIM PERSIAPAN" type="button">Persiapan</button>
+<button data-t="TIM PELAKSANA" type="button">Pelaksana</button>
+<button data-t="TIM PENGAWAS" type="button">Pengawas</button>
+</div>
+<div class="tl-legend">
+<span><span class="dot" style="background:var(--done)"></span>terlaksana</span>
+<span><span class="dot" style="background:var(--run)"></span>berjalan</span>
+<span><span class="dot" style="background:var(--late)"></span>telat/deviasi</span>
+<span><span class="dot" style="background:var(--plan)"></span>terjadwal</span>
+<span><span class="dot" style="background:var(--pri);border-radius:50%;width:8px;height:8px"></span>realisasi</span>
+</div>
+<div id="chips" class="chips"></div>
+<div id="tlbody"></div>
+<div class="devbox" id="devbox" hidden></div>
+</section>
+<footer id="foot"><b>Cara baca (belanja):</b> jalur hijau = tahap terisi &middot; merah = titik kendali menunggu &middot; stempel = status item. Ketua memperbarui status di sheet SSOT &rarr; halaman diperbarui sistem per tarikan (level menit). <b>Timeline:</b> aktual vs jadwal turunan F-27 — 3 TIM SK 5999; rantai keuangan PPK mengiringi TIM PELAKSANA.</footer>
 </div>
 <script>
 var QS=new URLSearchParams(location.search),TOK=QS.get("tok");
 var TOKEN_BENAR="k1-ssot-2026-9f4c2a71";
 if(TOK!==TOKEN_BENAR){document.body.innerHTML='<div style="font-family:sans-serif;padding:26px;max-width:560px;margin:0 auto"><h2 style="font-family:Sora,sans-serif">Akses ditolak</h2><p style="color:#667">Tautan tidak lengkap — pastikan memakai tautan resmi yang mengandung token.</p></div>';throw new Error("no-token");}
-function fD(v){if(!v)return"";var d=new Date(v);if(isNaN(d))return String(v).replace("T"," ").slice(0,10);return d.getDate()+" "+["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][d.getMonth()]}
+var BLN=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+function fD(v){if(!v)return"";var d=new Date(v);if(isNaN(d))return String(v).replace("T"," ").slice(0,10);return d.getDate()+" "+BLN[d.getMonth()]}
 function fmtRp(n){n=Number(n)||0;return"Rp"+n.toLocaleString("id-ID")}
 function hk(ttd,n){var d=new Date(ttd),c=0;while(c<n){d.setDate(d.getDate()+1);var w=d.getDay();if(w!==0&&w!==6)c++}return d}
-var st=["SP ttd","NRK/KPPN","Tiba","BAPP/BAST","SPP","SPM","SP2D"];
-var D=null,MODE="all";
-var KET={
+var DATAB=null,DATT=null;
+/* ============ BELANJA ============ */
+var stB=["SP ttd","NRK/KPPN","Tiba","BAPP/BAST","SPP","SPM","SP2D"];
+var MODEB="all";
+var KETB={
 all:"Menampilkan seluruh item belanja K-1.",
 pelaksana:"Fokus TIM PELAKSANA — item sudah pesan: aktivasi lisensi, pemeriksaan barang, instalasi, uji fungsi.",
 pengawas:"Fokus TIM PENGAWAS — titik kendali aktif: NRK jalur LS, pemeriksaan barang, BAPP/BAST, dan item menyimpang.",
@@ -127,9 +186,9 @@ var tiba=r["Tgl Pesanan Tiba (Pemeriksaan Tim)"],ba=r["Tgl BAPP/BAST"];
 var pengawas=(kri||!!ba||!!tiba||(stt&&stt!=="Sudah Pesan"&&stt!=="Belum Pesan"));
 var pelaksana=(stt==="Sudah Pesan");
 var persiapan=(stt==="Belum Pesan"||!stt);
-if(MODE==="pelaksana")return pelaksana;
-if(MODE==="pengawas")return pengawas||kri;
-if(MODE==="persiapan")return persiapan&&!pengawas;
+if(MODEB==="pelaksana")return pelaksana;
+if(MODEB==="pengawas")return pengawas||kri;
+if(MODEB==="persiapan")return persiapan&&!pengawas;
 return true;}
 function pc(r){var s=String(r["Status Inaproc"]||"");
 if(s==="Sudah Pesan"){var ls=String(r["Mekanisme Bayar"]||"").indexOf("LS")>=0;
@@ -137,10 +196,10 @@ var nrk=String(r["NRK Daftar KPPN"]||"").trim();var ok=nrk&&!/up bendahara/i.tes
 if(ls&&!ok&&r["Tgl TTD SP"])return"late";return"done";}
 if(s&&s!=="Belum Pesan")return"run";if(s==="Belum Pesan")return"late";return"plan"}
 function stampId(p){return p==="done"?"Sudah Pesan":p==="late"?"Kritis":p==="run"?"Proses":"Terjadwal"}
-function render(){
-var ROWS=D.rows,sp=0,kr=0;
+function renderB(){
+var ROWS=DATAB.rows,sp=0,kr=0;
 var L=document.getElementById("list"),S=document.getElementById("sum");
-L.innerHTML="";S.innerHTML="";var tampil=0,idx=0;
+L.innerHTML="";S.innerHTML="";var tampil=0;
 ROWS.forEach(function(r){
 if(!grp(r))return;tampil++;
 var it=String(r["Item"]||""),nm=it.replace(/\*+/g,"");
@@ -153,13 +212,12 @@ var vals=[ttd,(ls?nrk:(nrkOk?nrk:"UP-VA")),tiba,ba,r["SPP"],r["SPM"],sp2d];
 var warn="";if(stt==="Sudah Pesan"&&ls&&!nrkOk&&ttd){var d=hk(ttd,5);
 warn="NRK jalur LS belum tercatat — batas 5 hari kerja: "+fD(d.toISOString())+" (PER-9/PB/2026)"}
 if(warn)kr++;
-var chain=st.map(function(s,i){var on=vals[i]&&String(vals[i]).trim()!=="";
+var chain=stB.map(function(s,i){var on=vals[i]&&String(vals[i]).trim()!=="";
 return '<div class="st'+(on?" on":"")+(i===1&&!nrkOk&&ls?" kri":"")+'"><i></i>'+s+"</div>"}).join("");
 var p=pc(r);
 var link=r["Link Katalog/Pesanan Inaproc"];
 var spn=String(r["No. SP"]||"");
 var c=document.createElement("div");c.className="card";c.dataset.pc=p;
-c.style.animationDelay=(idx++*0.04)+"s";
 c.innerHTML='<div class="stamp">'+stampId(p)+'</div><div class="nm">'+nm+"</div>"+
 '<div class="meta"><span>Nilai: <b>'+fmtRp(r["Nilai Nego (Rp)"])+"</b></span><span>"+(r["Mekanisme Bayar"]||"")+"</span>"+((link&&String(link).indexOf("http")===0)?'<a href="'+link+'">Pesanan</a>':"")+"</div>"+
 '<div class="meta"><span>TTD SP: <b>'+fD(ttd)+"</b></span>"+(nrk?'<span class="u">NRK: '+(nrkOk?nrk:"jalur UP-VA")+"</span>":"")+(spn?'<span class="u">SP: '+spn+"</span>":"")+"</div>"+
@@ -169,12 +227,86 @@ S.innerHTML='<div class="stat k-done"><b>'+tampil+"</b><span>Item tampil</span><
 '<div class="stat"><b>'+sp+"/"+ROWS.length+"</b><span>Sudah pesan</span></div>"+
 '<div class="stat k-late"><b>'+kr+"</b><span>Titik kritis</span></div>"+
 '<div class="stat"><b>'+fD(new Date().toISOString())+"</b><span>WITA dibuka</span></div>";
-document.getElementById("note").textContent=KET[MODE]||KET.all;}
-document.getElementById("tabs").addEventListener("click",function(e){
+document.getElementById("noteB").textContent=KETB[MODEB]||KETB.all;}
+document.getElementById("tabsB").addEventListener("click",function(e){
 var b=e.target.closest("button");if(!b)return;
-document.querySelectorAll("#tabs button").forEach(function(x){x.classList.toggle("on",x===b)});
-MODE=b.dataset.t;if(D)render();});
-fetch("data.json").then(function(r){return r.json()}).then(function(d){D=d;
-render();})
-.catch(function(e){document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data</div><div class="meta">Periksa koneksi, lalu muat ulang halaman.</div></div>';});
+document.querySelectorAll("#tabsB button").forEach(function(x){x.classList.toggle("on",x===b)});
+MODEB=b.dataset.t;if(DATAB)renderB();});
+/* ============ TIMELINE ============ */
+var D0=new Date("2026-09-22"),D1=new Date("2027-01-03"),SPAN=(D1-D0)/864e5;
+var MODET="all";
+var pct=function(iso){return ((new Date(iso)-D0)/864e5)/SPAN*100};
+var pcts=function(iso){return "calc(var(--lblw) + (100% - var(--lblw)) * "+(pct(iso)/100).toFixed(4)+")"};
+var STL={done:"terlaksana",run:"berjalan",late:"telat/deviasi",plan:"terjadwal"};
+var TEAMS=["TIM PERSIAPAN","TIM PELAKSANA","TIM PENGAWAS"];
+function renderT(){
+var T=DATT,HB=T.hari;
+var ax=document.createElement("div");ax.className="tl-axis";
+[["2026-09-22","22 Sep"],["2026-10-01","1 Okt"],["2026-10-15","15 Okt"],["2026-11-01","1 Nov"],["2026-11-15","15 Nov"],["2026-12-01","1 Des"],["2026-12-15","15 Des"],["2027-01-03","31 Des"]].forEach(function(m){
+var s=document.createElement("span");s.style.left=pct(m[0])+"%";s.textContent=m[1];ax.appendChild(s);});
+var body=document.getElementById("tlbody");
+var wrap=document.createElement("div");wrap.className="tlwrap";wrap.appendChild(ax);
+var today=document.createElement("div");today.className="tl-today";
+today.style.setProperty("--tp",(pct(HB)/100).toFixed(4));
+today.innerHTML="<b>HARI INI "+fD(HB)+"</b>";
+wrap.appendChild(today);
+TEAMS.forEach(function(team){
+var rows=T.rows.filter(function(r){return r.team===team});
+if(!rows.length)return;
+var ch=T.chip[team];
+var g=document.createElement("div");g.className="tl-grp";g.dataset.t=team;
+g.innerHTML=team+'<span class="n">'+ch.done+"/"+ch.total+" terlaksana"+(ch.late?" · <b>"+ch.late+" telat</b>":"")+"</span>";
+wrap.appendChild(g);
+rows.forEach(function(r){
+var row=document.createElement("div");row.className="trow";row.dataset.t=team;
+var lbl=document.createElement("div");lbl.className="tlbl";lbl.title=r.id+" — "+r.label;
+lbl.textContent=r.id+". "+r.label;
+var track=document.createElement("div");track.className="track";
+r.plan.forEach(function(rg){
+var l=Math.max(0,pct(rg[0])),w=Math.min(100,pct(rg[1])+100/SPAN)-l;
+var b=document.createElement("span");b.className="tbar "+r.st;
+b.style.left=l+"%";b.style.width=Math.max(0.8,w)+"%";
+b.title=r.id+" — "+r.label+" · Rencana: "+fD(rg[0])+(rg[1]!==rg[0]?"–"+fD(rg[1]):"")+" · "+STL[r.st];
+track.appendChild(b);});
+r.real.forEach(function(iso){
+var dt=document.createElement("span");dt.className="tdot";
+dt.style.left=pct(iso)+"%";dt.title=r.id+" — realisasi "+fD(iso);
+track.appendChild(dt);});
+var mk=document.createElement("span");mk.className="tmark";
+mk.style.left="calc("+pct(HB).toFixed(4)+"% - 1px)";track.appendChild(mk);
+row.appendChild(lbl);row.appendChild(track);wrap.appendChild(row);});
+});
+body.innerHTML="";body.appendChild(wrap);
+var db=document.getElementById("devbox");db.hidden=false;
+db.innerHTML='<span class="lbl">Deviasi tercatat (F-27 §B)</span>'+(T.deviasi||"—")+
+'<br><br><span class="lbl">Rekomendasi / mitigasi</span>'+(T.rekomendasi||"—");
+}
+document.getElementById("tabsT").addEventListener("click",function(e){
+var b=e.target.closest("button");if(!b)return;
+document.querySelectorAll("#tabsT button").forEach(function(x){x.classList.toggle("on",x===b)});
+MODET=b.dataset.t;
+document.querySelectorAll("#tlbody [data-t]").forEach(function(el){
+el.style.display=(MODET==="all"||el.dataset.t===MODET)?"":"none";});});
+/* ============ MODE SWITCH ============ */
+document.getElementById("modes").addEventListener("click",function(e){
+var b=e.target.closest("button");if(!b)return;
+document.querySelectorAll("#modes button").forEach(function(x){x.classList.toggle("on",x===b)});
+var m=b.dataset.m;
+var tl=(m==="timeline");
+document.getElementById("v-belanja").hidden=tl;
+document.getElementById("v-timeline").hidden=!tl;
+document.getElementById("hTitle").textContent=tl?"Timeline Pengendalian":"Pengendalian Belanja";
+document.getElementById("hLede").innerHTML=tl
+?'Aktual vs jadwal turunan <b>F-27</b> — 3 TIM SK 5999 (Persiapan · Pelaksana · Pengawas). Karakter Swakelola Tipe I: pengelolaan terhadap TIM — rantai keuangan PPK mengiringi TIM PELAKSANA.'
+:'Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.';
+if(tl&&DATT)renderT();});
+/* ============ MUAT ============ */
+function muat(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
+muat("data.json").then(function(d){DATAB=d;
+document.querySelector("#v-belanja .sub");
+renderB();}).catch(function(e){
+document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data belanja</div><div class="meta">'+e+'</div></div>';});
+muat("timeline.json").then(function(d){DATT=d;}).catch(function(e){
+document.getElementById("devbox").hidden=false;
+document.getElementById("devbox").innerHTML="Gagal memuat timeline: "+e;});
 </script></body></html>
