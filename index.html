@@ -112,6 +112,7 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font
 .btnq.off{background:transparent;border:1.5px dashed var(--brd);color:var(--mut);cursor:default}
 /* ===== timeline ===== */
 .tl-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-bottom:10px}
+.subgrp{font-family:"Sora",system-ui,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:10px 0 4px}
 .tl-legend .dot{width:9px;height:6px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .chip{background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:6px 12px;font-size:12px;box-shadow:var(--sh)}
@@ -312,6 +313,7 @@ var ax=document.createElement("div");ax.className="tl-axis";
 var s=document.createElement("span");s.style.left=pct(m[0])+"%";s.textContent=m[1];
 if(i===arr.length-1){s.style.transform="translateX(-100%)";s.style.left="calc(100% - 1px)";}
 ax.appendChild(s);});
+var lastSub="";
 var body=document.getElementById("tlbody");
 var wrap=document.createElement("div");wrap.className="tlwrap";wrap.appendChild(ax);
 var today=document.createElement("div");today.className="tl-today";
@@ -325,12 +327,17 @@ var rows=T.rows.filter(function(r){return r.team===team});
 if(!rows.length)return;
 var done=rows.filter(function(d){return d.st==="done"}).length;
 var late=rows.filter(function(d){return d.st==="late"}).length;
-var g=document.createElement("div");g.className="tl-grp";g.dataset.t=team;
+var g=document.createElement("div");g.className="tl-grp";g.dataset.t=team;lastSub="";
 g.innerHTML=team+'<span class="n">'+done+"/"+rows.length+" terlaksana"+(late?" · <b>"+late+" telat</b>":"")+"</span>";
 wrap.appendChild(g);
+var lastSub="";
 rows.forEach(function(r){
 var tampil=(MODET==="all")||(MODET==="PEL-BELANJA"&&r.team==="TIM PELAKSANA"&&subOf(r)==="BELANJA")||(MODET==="PEL-NONBELANJA"&&r.team==="TIM PELAKSANA"&&subOf(r)==="NON-BELANJA")||(r.team===MODET&&MODET!=="PEL-BELANJA"&&MODET!=="PEL-NONBELANJA");
 if(!tampil)return;
+var sv=subOf(r);
+if(r.team==="TIM PELAKSANA"&&sv!==lastSub){lastSub=sv;
+var sh=document.createElement("div");sh.className="subgrp";sh.dataset.t=team;sh.dataset.sub=sv;
+sh.textContent=(sv==="BELANJA")?"· BELANJA":"· NON-BELANJA — SISTEM";wrap.appendChild(sh);}
 var row=document.createElement("div");row.className="trow";row.dataset.t=team;row.dataset.sub=(r.sub||"");
 var lbl=document.createElement("div");lbl.className="tlbl";lbl.title=r.id+" — "+r.label;
 lbl.textContent=r.id+". "+r.label;
