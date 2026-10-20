@@ -82,6 +82,24 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font
 .st.kri i{background:var(--late)} .st.kri{color:var(--late);font-weight:600}
 .warn{margin-top:12px;font-size:12px;color:var(--late);background:color-mix(in srgb,var(--late) 8%,var(--card));
   border:1px solid color-mix(in srgb,var(--late) 25%,transparent);border-radius:9px;padding:8px 12px;font-weight:500}
+/* ===== gap/deviasi: mode alert ===== */
+#v-gap .gaphead{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;border-radius:14px;
+ padding:16px 18px;margin-bottom:14px;box-shadow:0 8px 22px -10px rgba(185,28,28,.55)}
+#v-gap .gaphead .big{font-family:"Sora",system-ui,sans-serif;font-size:40px;font-weight:700;line-height:1}
+#v-gap .gaphead .row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#v-gap .gaphead .cap{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+#v-gap .gaphead .mini{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;opacity:.95;margin-top:8px}
+#v-gap .gaphead .mini b{font-size:15px;font-family:"Sora",system-ui,sans-serif}
+.acard{position:relative;background:var(--card);border:1px solid var(--brd);border-left:6px solid var(--alv,#dc2626);
+ border-radius:12px;padding:13px 15px;margin-bottom:12px;box-shadow:var(--sh)}
+.acard .lv{position:absolute;top:12px;right:12px;font:700 9.5px "Sora",system-ui,sans-serif;letter-spacing:.14em;
+ text-transform:uppercase;color:#fff;background:var(--alv,#dc2626);border-radius:5px;padding:3px 8px}
+.acard .src{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:3px}
+.acard .nm{font-weight:600;font-size:14.5px;color:var(--ink);padding-right:70px;line-height:1.35}
+.acard .act{margin-top:8px;font-size:12.5px;color:var(--ink2);background:color-mix(in srgb,var(--alv,#dc2626) 8%,transparent);
+ border-radius:8px;padding:7px 10px}
+.acard .meta2{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-top:7px}
+.acard .meta2 b{color:var(--ink2)}
 /* ===== output swakelola ===== */
 .out-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--sh)}
 .out-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
@@ -344,26 +362,36 @@ var ls=String(r["Mekanisme Bayar"]||"").indexOf("LS")>=0;
 var nrk=String(r["NRK Daftar KPPN"]||"").trim();var nrkOk=nrk&&!/up bendahara/i.test(nrk);
 var ttd=r["Tgl TTD SP"];
 if(stt==="Sudah Pesan"&&ls&&!nrkOk&&ttd){var d=hk(ttd,5);
-A.push({src:"BELANJA",tim:"PELAKSANA+PENGAWAS",nm:it,isi:"NRK jalur LS belum tercatat — batas 5 HK: "+fD(d.toISOString())+" (PER-9)"});}
-if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"PERSIAPAN",nm:it,isi:"Belum pesan — segerakan penetapan/pemesanan"});}});
+A.push({src:"BELANJA",tim:"Pelaksana + Pengawas",nm:it,isi:"Daftarkan NRK ke KPPN sekarang — tanpa ini SP2D tertahan.",
+ batas:fD(d.toISOString())+" (5 HK - PER-9)",lvl:1,lvlTx:"SEGERA"});}
+if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"Persiapan",nm:it,isi:"Segerakan penetapan & pemesanan — item masih menyusul jalur.",
+ batas:"Sebelum tagihan berjalan",lvl:2,lvlTx:"KEJAR"});}});
 (DATT?DATT.rows:[]).forEach(function(r){
 if(r.st!=="late")return;
-A.push({src:"TIMELINE",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,isi:"Tahap telat/deviasi terhadap jadwal F-27"});});
+A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,
+ isi:"Tahap telat/deviasi terhadap jadwal F-27 — kejar penyelesaian atau update jadwal resmi.",
+ batas:"Ikuti jendela F-17",lvl:2,lvlTx:"TELAT"});});
+A.sort(function(a,b){return a.lvl-b.lvl;});
 return A;}
 function renderG(){
 var A=kumpulAlert();
-var GS=document.getElementById("gapstats"),GL=document.getElementById("gaplist");
-GS.innerHTML='<div class="stat k-late"><b>'+A.length+"</b><span>Total alert</span></div>"+
-'<div class="stat"><b>'+A.filter(function(a){return a.src==="BELANJA"}).length+"</b><span>Dari belanja</span></div>"+
-'<div class="stat"><b>'+A.filter(function(a){return a.src==="TIMELINE"}).length+"</b><span>Dari timeline F-27</span></div>"+
-'<div class="stat"><b>'+fD(new Date().toISOString())+"</b><span>WITA dibuka</span></div>";
-GL.innerHTML="";
-if(!A.length){GL.innerHTML='<div class="card"><div class="nm">Tidak ada alert</div><div class="meta">Semua item dan tahapan dalam jalur normal.</div></div>';return;}
+var kr=A.filter(function(a){return a.lvl===1}).length;
+var GH=document.getElementById("gapstats");
+document.getElementById("gapstats").outerHTML=
+'<div class="gaphead" id="gapstats"><div class="row"><div><div class="big">'+A.length+'</div>'+
+'<div class="cap">alert berjalan</div></div><div class="mini">'+
+'<span><b>'+kr+'</b> &middot; segera (ada batas)</span><span><b>'+(A.length-kr)+
+'</b> &middot; kejar/telat</span></div></div>'+
+'<div class="mini"><span>Kondisi data: tarikan SSOT terakhir</span></div></div>';
+var GL=document.getElementById("gaplist");GL.innerHTML="";
+if(!A.length){GL.innerHTML='<div class="acard" style="--alv:var(--done)"><div class="nm">Tidak ada alert</div>'+
+'<div class="act">Seluruh item dan tahapan dalam jalur normal.</div></div>';return;}
 A.forEach(function(a){
-var c=document.createElement("div");c.className="card";c.dataset.pc="late";
-c.innerHTML='<div class="top"><div class="nm">'+a.nm+'</div><span class="b r">ALERT</span></div>'+
-'<div class="meta"><span>Sumber: <b>'+a.src+"</b></span><span>Tim: <b>"+a.tim+"</b></span></div>"+
-'<div class="warn">'+a.isi+"</div>";
+var lv=a.lvl===1?"#dc2626":"#d97706";
+var c=document.createElement("div");c.className="acard";c.style.setProperty("--alv",lv);
+c.innerHTML='<div class="lv">'+a.lvlTx+'</div><div class="src">ALERT &middot; '+a.src+' &middot; TIM '+a.tim+'</div>'+
+'<div class="nm">'+a.nm+'</div><div class="act">'+a.isi+'</div>'+
+'<div class="meta2"><span>Batas: <b>'+a.batas+"</b></span></div>";
 GL.appendChild(c);});}
 /* ============ MODE SWITCH ============ */
 function statsT(){
