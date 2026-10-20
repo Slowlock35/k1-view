@@ -182,7 +182,8 @@ footer b{color:var(--ink2)}
 <div class="tabs" id="tabsT">
 <button class="on" data-t="all" type="button">Semua tim</button>
 <button data-t="TIM PERSIAPAN" type="button">Persiapan</button>
-<button data-t="TIM PELAKSANA" type="button">Pelaksana</button>
+<button data-t="PEL-BELANJA" type="button">Pelaksana&mdash;Belanja</button>
+<button data-t="PEL-NONBELANJA" type="button">Pelaksana&mdash;Non-Belanja</button>
 <button data-t="TIM PENGAWAS" type="button">Pengawas</button>
 </div>
 <div class="tl-legend">
@@ -317,15 +318,20 @@ var today=document.createElement("div");today.className="tl-today";
 today.style.setProperty("--tp",(pct(HB)/100).toFixed(4));
 today.innerHTML="<b>HARI INI "+fD(HB)+"</b>";
 wrap.appendChild(today);
+function subOf(r){if(r.team!=="TIM PELAKSANA")return "";return r.sub==="NON-BELANJA (SISTEM)"?"NON-BELANJA":"BELANJA";}
+function cocok(r,t){if(t==="all")return true;if(t==="PEL-BELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="BELANJA";if(t==="PEL-NONBELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="NON-BELANJA";return r.team===t;}
 TEAMS.forEach(function(team){
 var rows=T.rows.filter(function(r){return r.team===team});
 if(!rows.length)return;
-var ch=T.chip[team];
+var done=rows.filter(function(d){return d.st==="done"}).length;
+var late=rows.filter(function(d){return d.st==="late"}).length;
 var g=document.createElement("div");g.className="tl-grp";g.dataset.t=team;
-g.innerHTML=team+'<span class="n">'+ch.done+"/"+ch.total+" terlaksana"+(ch.late?" · <b>"+ch.late+" telat</b>":"")+"</span>";
+g.innerHTML=team+'<span class="n">'+done+"/"+rows.length+" terlaksana"+(late?" · <b>"+late+" telat</b>":"")+"</span>";
 wrap.appendChild(g);
 rows.forEach(function(r){
-var row=document.createElement("div");row.className="trow";row.dataset.t=team;
+var tampil=(MODET==="all")||(MODET==="PEL-BELANJA"&&r.team==="TIM PELAKSANA"&&subOf(r)==="BELANJA")||(MODET==="PEL-NONBELANJA"&&r.team==="TIM PELAKSANA"&&subOf(r)==="NON-BELANJA")||(r.team===MODET&&MODET!=="PEL-BELANJA"&&MODET!=="PEL-NONBELANJA");
+if(!tampil)return;
+var row=document.createElement("div");row.className="trow";row.dataset.t=team;row.dataset.sub=(r.sub||"");
 var lbl=document.createElement("div");lbl.className="tlbl";lbl.title=r.id+" — "+r.label;
 lbl.textContent=r.id+". "+r.label;
 var track=document.createElement("div");track.className="track";
@@ -351,8 +357,7 @@ document.getElementById("tabsT").addEventListener("click",function(e){
 var b=e.target.closest("button");if(!b)return;
 document.querySelectorAll("#tabsT button").forEach(function(x){x.classList.toggle("on",x===b)});
 MODET=b.dataset.t;
-document.querySelectorAll("#tlbody [data-t]").forEach(function(el){
-el.style.display=(MODET==="all"||el.dataset.t===MODET)?"":"none";});});
+document.querySelectorAll("#tlbody [data-t]").forEach(function(el){var ok=(MODET==="all")||(el.dataset.t===MODET)||(el.dataset.t==="TIM PELAKSANA"&&((MODET==="PEL-BELANJA"&&el.dataset.sub==="BELANJA")||(MODET==="PEL-NONBELANJA"&&el.dataset.sub==="NON-BELANJA")));el.style.display=ok?"":"none";});});
 /* ============ GAP / DEVIASI (alert-only) ============ */
 function kumpulAlert(){
 var A=[];
