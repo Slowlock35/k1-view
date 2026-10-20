@@ -126,6 +126,7 @@ footer b{color:var(--ink2)}
 <div class="modes" id="modes">
 <button class="on" data-m="belanja" type="button">Pengendalian Belanja</button>
 <button data-m="timeline" type="button">Timeline Pengendalian (aktual vs jadwal)</button>
+<button data-m="gap" type="button">GAP / Deviasi (alert)</button>
 </div>
 <div class="stats" id="sum"></div>
 <!-- ===== VIEW: BELANJA ===== -->
@@ -157,6 +158,11 @@ footer b{color:var(--ink2)}
 <div id="chips" class="chips"></div>
 <div id="tlbody"></div>
 <div class="devbox" id="devbox" hidden></div>
+</section>
+<section id="v-gap" hidden>
+<div class="note">Hanya menampilkan yang ALERT — item belanja dan tahapan dengan status kritis/telat/menyimpang dari sheet SSOT dan F-27. Tidak ada berarti aman.</div>
+<div id="gapstats" class="stats"></div>
+<div id="gaplist"></div>
 </section>
 <footer id="foot"><b>Cara baca (belanja):</b> jalur hijau = tahap terisi &middot; merah = titik kendali menunggu &middot; stempel = status item. Ketua memperbarui status di sheet SSOT &rarr; halaman diperbarui sistem per tarikan (level menit). <b>Timeline:</b> aktual vs jadwal turunan F-27 — 3 TIM SK 5999; rantai keuangan PPK mengiringi TIM PELAKSANA.</footer>
 </div>
@@ -287,6 +293,37 @@ document.querySelectorAll("#tabsT button").forEach(function(x){x.classList.toggl
 MODET=b.dataset.t;
 document.querySelectorAll("#tlbody [data-t]").forEach(function(el){
 el.style.display=(MODET==="all"||el.dataset.t===MODET)?"":"none";});});
+/* ============ GAP / DEVIASI (alert-only) ============ */
+function kumpulAlert(){
+var A=[];
+(DATAB?DATAB.rows:[]).forEach(function(r){
+var it=String(r["Item"]||"").replace(/\*+/g,"");if(!it)return;
+var stt=String(r["Status Inaproc"]||"");
+var ls=String(r["Mekanisme Bayar"]||"").indexOf("LS")>=0;
+var nrk=String(r["NRK Daftar KPPN"]||"").trim();var nrkOk=nrk&&!/up bendahara/i.test(nrk);
+var ttd=r["Tgl TTD SP"];
+if(stt==="Sudah Pesan"&&ls&&!nrkOk&&ttd){var d=hk(ttd,5);
+A.push({src:"BELANJA",tim:"PELAKSANA+PENGAWAS",nm:it,isi:"NRK jalur LS belum tercatat — batas 5 HK: "+fD(d.toISOString())+" (PER-9)"});}
+if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"PERSIAPAN",nm:it,isi:"Belum pesan — segerakan penetapan/pemesanan"});}});
+(DATT?DATT.rows:[]).forEach(function(r){
+if(r.st!=="late")return;
+A.push({src:"TIMELINE",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,isi:"Tahap telat/deviasi terhadap jadwal F-27"});});
+return A;}
+function renderG(){
+var A=kumpulAlert();
+var GS=document.getElementById("gapstats"),GL=document.getElementById("gaplist");
+GS.innerHTML='<div class="stat k-late"><b>'+A.length+"</b><span>Total alert</span></div>"+
+'<div class="stat"><b>'+A.filter(function(a){return a.src==="BELANJA"}).length+"</b><span>Dari belanja</span></div>"+
+'<div class="stat"><b>'+A.filter(function(a){return a.src==="TIMELINE"}).length+"</b><span>Dari timeline F-27</span></div>"+
+'<div class="stat"><b>'+fD(new Date().toISOString())+"</b><span>WITA dibuka</span></div>";
+GL.innerHTML="";
+if(!A.length){GL.innerHTML='<div class="card"><div class="nm">Tidak ada alert</div><div class="meta">Semua item dan tahapan dalam jalur normal.</div></div>';return;}
+A.forEach(function(a){
+var c=document.createElement("div");c.className="card";c.dataset.pc="late";
+c.innerHTML='<div class="top"><div class="nm">'+a.nm+'</div><span class="b r">ALERT</span></div>'+
+'<div class="meta"><span>Sumber: <b>'+a.src+"</b></span><span>Tim: <b>"+a.tim+"</b></span></div>"+
+'<div class="warn">'+a.isi+"</div>";
+GL.appendChild(c);});}
 /* ============ MODE SWITCH ============ */
 function statsT(){
 var R=DATT.rows,dn=0,lt=0;
@@ -300,21 +337,22 @@ document.getElementById("modes").addEventListener("click",function(e){
 var b=e.target.closest("button");if(!b)return;
 document.querySelectorAll("#modes button").forEach(function(x){x.classList.toggle("on",x===b)});
 var m=b.dataset.m;
-var tl=(m==="timeline");
-document.getElementById("v-belanja").hidden=tl;
+var tl=(m==="timeline"),gp=(m==="gap");
+document.getElementById("v-belanja").hidden=(tl||gp);
 document.getElementById("v-timeline").hidden=!tl;
-document.getElementById("hTitle").textContent=tl?"Timeline Pengendalian":"Pengendalian Belanja";
+document.getElementById("v-gap").hidden=!gp;
+document.getElementById("hTitle").textContent=gp?"GAP / Deviasi (alert)":(tl?"Timeline Pengendalian":"Pengendalian Belanja");
 document.getElementById("hLede").innerHTML=tl
 ?'Aktual vs jadwal turunan <b>F-27</b> — 3 TIM SK 5999 (Persiapan · Pelaksana · Pengawas). Karakter Swakelola Tipe I: pengelolaan terhadap TIM — rantai keuangan PPK mengiringi TIM PELAKSANA.'
 :'Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.';
-if(tl&&DATT){renderT();statsT();}else if(DATAB){renderB();}});
+if(tl&&DATT){renderT();statsT();}else if(gp){renderG();}else if(DATAB){renderB();}});
 /* ============ MUAT ============ */
 function muat(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
 muat("data.json").then(function(d){DATAB=d;
 document.querySelector("#v-belanja .sub");
 renderB();}).catch(function(e){
 document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data belanja</div><div class="meta">'+e+'</div></div>';});
-muat("timeline.json").then(function(d){DATT=d;}).catch(function(e){
+muat("timeline.json").then(function(d){DATT=d;if(!document.getElementById("v-gap").hidden)renderG();}).catch(function(e){
 document.getElementById("devbox").hidden=false;
 document.getElementById("devbox").innerHTML="Gagal memuat timeline: "+e;});
 </script></body></html>
