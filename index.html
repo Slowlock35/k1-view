@@ -374,6 +374,7 @@ A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,
  batas:"Ikuti jendela F-17",lvl:2,lvlTx:"TELAT"});});
 A.sort(function(a,b){return a.lvl-b.lvl;});
 return A;}
+function updateBadge(){if(!DATAB||!DATT)return;var n=kumpulAlert().length;var gb=document.getElementById("gapBadge");gb.textContent=n;gb.style.display=n?"inline-block":"none";}
 function renderG(){
 var A=kumpulAlert();
 var kr=A.filter(function(a){return a.lvl===1}).length;
@@ -420,14 +421,14 @@ document.getElementById("hLede").innerHTML=op
 :(gp?'Hanya menampilkan yang <b>ALERT</b> — item belanja dan tahapan kritis/telat/menyimpang, dari sheet SSOT dan F-27. Kosong berarti semua dalam jalur normal.'
 :(tl?'Aktual vs jadwal turunan <b>F-27</b> — 3 TIM SK 5999 (Persiapan · Pelaksana · Pengawas). Karakter Swakelola Tipe I: pengelolaan terhadap TIM — rantai keuangan PPK mengiringi TIM PELAKSANA.'
 :'Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.'));
-if(tl&&DATT){renderT();statsT();}else if(gp){renderG();}else if(DATAB){renderB();}});
+if(tl&&DATT){renderT();statsT();}else if(gp){renderG();}else if(DATAB){renderB();updateBadge();}});
 /* ============ MUAT ============ */
 function muat(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
-muat("data.json").then(function(d){DATAB=d;if(!document.getElementById("v-gap").hidden&&!document.getElementById("v-timeline").hidden)renderG();
+muat("data.json").then(function(d){DATAB=d;updateBadge();if(!document.getElementById("v-gap").hidden&&!document.getElementById("v-timeline").hidden)renderG();
 document.querySelector("#v-belanja .sub");
-renderB();}).catch(function(e){
+renderB();updateBadge();}).catch(function(e){
 document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data belanja</div><div class="meta">'+e+'</div></div>';});
-muat("timeline.json").then(function(d){DATT=d;if(!document.getElementById("v-gap").hidden)renderG();}).catch(function(e){
+muat("timeline.json").then(function(d){DATT=d;updateBadge();if(!document.getElementById("v-gap").hidden)renderG();}).catch(function(e){
 document.getElementById("devbox").hidden=false;
 document.getElementById("devbox").innerHTML="Gagal memuat timeline: "+e;});
 </script></body></html>
