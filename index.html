@@ -116,7 +116,7 @@ h1{font-family:"Sora",system-ui,sans-serif;font-size:clamp(20px,3.4vw,26px);font
   text-transform:uppercase;color:var(--ink2);margin:16px 0 6px;padding-left:2px}
 .tl-grp .n{color:var(--mut);letter-spacing:0;text-transform:none;font-weight:500;margin-left:8px}
 .tl-grp .n b{color:var(--late)}
-.devbox{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:12px 16px;margin-top:18px;box-shadow:var(--sh);font-size:12.5px;color:var(--ink2);line-height:1.6}
+details.devbox{background:var(--card);border:1px solid var(--brd);border-radius:12px;padding:12px 16px;margin-top:18px;box-shadow:var(--sh);font-size:12.5px;color:var(--ink2);line-height:1.6}details.devbox summary{cursor:pointer;font-weight:600;font-size:12.5px;color:var(--ink)}details.devbox summary .hint{font-weight:400;color:var(--mut);font-size:11px}details.devbox[open] summary{margin-bottom:8px}#devbox{margin-top:0}
 .devbox b{color:var(--ink)}
 .devbox .lbl{font-family:"Sora",system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:4px}
 footer{font-size:11.5px;color:var(--mut);margin-top:22px;line-height:1.7}
@@ -126,9 +126,11 @@ footer b{color:var(--ink2)}
   :root{--lblw:0px}
   .trow{grid-template-columns:1fr;min-height:0;padding:6px 0;border-bottom:1px solid var(--trk)}
   .tlbl{white-space:normal;padding:0 0 4px}
-  .tl-axis{margin-left:0}
+  .tl-axis{margin-left:0;font-size:9.5px}
   .tl-today{display:none}
   .tmark{opacity:.55}
+  details.devbox{padding:10px 12px}
+  .meta{font-size:12px}
 }
 </style></head><body>
 <div class="wrap">
@@ -172,7 +174,7 @@ footer b{color:var(--ink2)}
 </div>
 <div id="chips" class="chips"></div>
 <div id="tlbody"></div>
-<div class="devbox" id="devbox" hidden></div>
+<details class="devbox"><summary>Deviasi &amp; rekomendasi &mdash; F-27 &sect;B <span class="hint">ketuk untuk buka</span></summary><div id="devbox"></div></details>
 </section>
 <section id="v-output" hidden><div class="note">Keluaran paket sesuai <b>KAK FINAL 30 Sep 2026 &sect;5 (O-01&ndash;O-05)</b> &mdash; Swakelola Tipe I &quot;Inovasi Layanan Berbasis Kepulauan&quot;; status mengikuti realisasi TIM.</div>
 
@@ -286,8 +288,10 @@ var TEAMS=["TIM PERSIAPAN","TIM PELAKSANA","TIM PENGAWAS"];
 function renderT(){
 var T=DATT,HB=T.hari;
 var ax=document.createElement("div");ax.className="tl-axis";
-[["2026-09-22","22 Sep"],["2026-10-01","1 Okt"],["2026-10-15","15 Okt"],["2026-11-01","1 Nov"],["2026-11-15","15 Nov"],["2026-12-01","1 Des"],["2026-12-15","15 Des"],["2027-01-03","31 Des"]].forEach(function(m){
-var s=document.createElement("span");s.style.left=pct(m[0])+"%";s.textContent=m[1];ax.appendChild(s);});
+[["2026-09-22","22 Sep"],["2026-10-01","1 Okt"],["2026-10-15","15 Okt"],["2026-11-01","1 Nov"],["2026-11-15","15 Nov"],["2026-12-01","1 Des"],["2026-12-15","15 Des"],["2027-01-03","31 Des"]].forEach(function(m,i,arr){
+var s=document.createElement("span");s.style.left=pct(m[0])+"%";s.textContent=m[1];
+if(i===arr.length-1){s.style.transform="translateX(-100%)";s.style.left="calc(100% - 1px)";}
+ax.appendChild(s);});
 var body=document.getElementById("tlbody");
 var wrap=document.createElement("div");wrap.className="tlwrap";wrap.appendChild(ax);
 var today=document.createElement("div");today.className="tl-today";
@@ -321,8 +325,7 @@ mk.style.left="calc("+pct(HB).toFixed(4)+"% - 1px)";track.appendChild(mk);
 row.appendChild(lbl);row.appendChild(track);wrap.appendChild(row);});
 });
 body.innerHTML="";body.appendChild(wrap);
-var db=document.getElementById("devbox");db.hidden=false;
-db.innerHTML='<span class="lbl">Deviasi tercatat (F-27 §B)</span>'+(T.deviasi||"—")+
+var db=document.getElementById("devbox");db.innerHTML='<span class="lbl">Deviasi tercatat (F-27 §B)</span>'+(T.deviasi||"—")+
 '<br><br><span class="lbl">Rekomendasi / mitigasi</span>'+(T.rekomendasi||"—");
 }
 document.getElementById("tabsT").addEventListener("click",function(e){
