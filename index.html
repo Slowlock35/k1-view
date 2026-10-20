@@ -341,14 +341,16 @@ var tl=(m==="timeline"),gp=(m==="gap");
 document.getElementById("v-belanja").hidden=(tl||gp);
 document.getElementById("v-timeline").hidden=!tl;
 document.getElementById("v-gap").hidden=!gp;
+document.getElementById("sum").hidden=gp;
 document.getElementById("hTitle").textContent=gp?"GAP / Deviasi (alert)":(tl?"Timeline Pengendalian":"Pengendalian Belanja");
-document.getElementById("hLede").innerHTML=tl
-?'Aktual vs jadwal turunan <b>F-27</b> — 3 TIM SK 5999 (Persiapan · Pelaksana · Pengawas). Karakter Swakelola Tipe I: pengelolaan terhadap TIM — rantai keuangan PPK mengiringi TIM PELAKSANA.'
-:'Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.';
+document.getElementById("hLede").innerHTML=gp
+?'Hanya menampilkan yang <b>ALERT</b> — item belanja dan tahapan kritis/telat/menyimpang, dari sheet SSOT dan F-27. Kosong berarti semua dalam jalur normal.'
+:(tl?'Aktual vs jadwal turunan <b>F-27</b> — 3 TIM SK 5999 (Persiapan · Pelaksana · Pengawas). Karakter Swakelola Tipe I: pengelolaan terhadap TIM — rantai keuangan PPK mengiringi TIM PELAKSANA.'
+:'Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.');
 if(tl&&DATT){renderT();statsT();}else if(gp){renderG();}else if(DATAB){renderB();}});
 /* ============ MUAT ============ */
 function muat(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
-muat("data.json").then(function(d){DATAB=d;
+muat("data.json").then(function(d){DATAB=d;if(!document.getElementById("v-gap").hidden&&!document.getElementById("v-timeline").hidden)renderG();
 document.querySelector("#v-belanja .sub");
 renderB();}).catch(function(e){
 document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data belanja</div><div class="meta">'+e+'</div></div>';});
