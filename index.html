@@ -134,9 +134,9 @@ footer b{color:var(--ink2)}
 <div class="lede" id="hLede">Posisi setiap item belanja dari <b>SP elektronik</b> hingga <b>SP2D</b> — mengalir dari sheet SSOT, diperbarui sistem per tarikan. Tautan bertoken.</div>
 <div class="rule"></div>
 <div class="modes" id="modes">
-<button class="on" data-m="belanja" type="button">Pengendalian Belanja</button>
+<button class="on" data-m="belanja" type="button">Monitoring TIM</button>
 <button data-m="timeline" type="button">Timeline Pengendalian (aktual vs jadwal)</button>
-<button data-m="gap" type="button">GAP / Deviasi (alert)</button>
+<button data-m="gap" type="button">GAP/Deviasi</button>
 <button data-m="output" type="button">Output Swakelola</button>
 </div>
 <div class="sync" id="sync" hidden><span class="pulse"></span>Sinkronisasi terakhir: <b id="syncTxt">—</b></div>
@@ -172,7 +172,7 @@ footer b{color:var(--ink2)}
 <div class="devbox" id="devbox" hidden></div>
 </section>
 <section id="v-output" hidden>
-<div class="note">Keluaran (output) Swakelola Tipe I &quot;Inovasi Layanan Berbasis Kepulauan&quot; — produk digital yang dibangun TIM dan dibiayai paket ini.</div>
+
 <div class="out-card">
 <div class="out-head"><img src="icon-qdi.png" alt="" style="width:34px;height:34px;border-radius:8px">
 <div><div class="nm">QDI System — Decision Intelligence</div>
@@ -191,7 +191,7 @@ footer b{color:var(--ink2)}
 <div class="out-head"><div class="pholder">K3T</div>
 <div><div class="nm">Konektivitas 3 Titik Kepulauan</div>
 <div class="outstat"><span class="b g">AKTIF</span> internet satelit + managed service jaringan</div></div></div>
-<div class="meta">Infrastruktur konektivitas titik Siau, Melonguane, Tahuna — prasyarat layanan digital di kepulauan; dikawal dalam pengendalian belanja (view Belanja &amp; Timeline).</div>
+<div class="meta">Infrastruktur konektivitas titik Siau, Melonguane, Tahuna</div>
 </div>
 </section>
 <section id="v-gap" hidden>
@@ -378,7 +378,7 @@ document.getElementById("v-timeline").hidden=!tl;
 document.getElementById("v-gap").hidden=!gp;
 document.getElementById("v-output").hidden=!op;
 document.getElementById("sum").hidden=(gp||op);
-document.getElementById("hTitle").textContent=op?"Output Swakelola":(gp?"GAP / Deviasi (alert)":(tl?"Timeline Pengendalian":"Pengendalian Belanja"));
+document.getElementById("hTitle").textContent=op?"Output Swakelola":(gp?"GAP/Deviasi":(tl?"Timeline Pengendalian":"Monitoring TIM"));
 document.getElementById("hLede").innerHTML=op
 ?'Keluaran <b>Swakelola Tipe I "Inovasi Layanan Berbasis Kepulauan"</b>: QDI System (aktif), Portal Integrasi (pengembangan), Konektivitas 3 titik kepulauan — dibangun TIM, dibiayai paket.'
 :(gp?'Hanya menampilkan yang <b>ALERT</b> — item belanja dan tahapan kritis/telat/menyimpang, dari sheet SSOT dan F-27. Kosong berarti semua dalam jalur normal.'
