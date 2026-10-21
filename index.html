@@ -385,8 +385,9 @@ if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"Persiapan",nm:it,isi:"Segerak
  batas:"Sebelum tagihan berjalan",lvl:2,lvlTx:"KEJAR"});}});
 (DATT?DATT.rows:[]).forEach(function(r){
 if(r.st!=="late")return;
+var cat=(/^10[a-m]$/i.test(String(r.id||""))||/portal/i.test(String(r.label||"")))?+" (catatan: belanja penopang portal—Azure SWA/logic/M365—sudah hijau di view Belanja; alert ini PEKERJAAN pembangunannya)":"";
 A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,
- isi:"Tahap telat/deviasi terhadap jadwal F-27 — kejar penyelesaian atau update jadwal resmi.",
+ isi:"Tahap telat/deviasi terhadap jadwal F-27 — kejar penyelesaian atau update jadwal resmi."+cat,
  batas:"Ikuti jendela F-17",lvl:2,lvlTx:"TELAT"});});
 A.sort(function(a,b){return a.lvl-b.lvl;});
 return A;}
