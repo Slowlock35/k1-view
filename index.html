@@ -389,7 +389,32 @@ var AKSI={
 "9. Aktivasi langganan":"Deviasi historis (aktivasi 13 Okt) - SUDAH DITANGANI. Lanjutan nyata: bukti aktivasi lisensi ke F-05b.",
 "PW6":"Verifikasi bukti pesan 5 item IQ2 hari ini; hasil dicatat di checklist pengawasan.",
 "PW13":"Lengkapi F-KB per SP & arsipkan; jadi lampiran pembayaran.",
-"PW10":"Pengawalan instalasi per titik sesuai jadwal 3-7 Nov; hadir & foto bukti."};
+"PW10":"Pengawalan instalasi per titik sesuai jadwal 3-7 Nov; hadir & foto bukti.",
+"10c.":"Tetapkan kamus indikator final bersama Yuanita + validator: definisi, sumber sah, periode tiap indikator - bukti: kamus terkunci di QDI (gap tertua, sejak 8 Okt).",
+"10d.":"Selesaikan shell portal + skema konten + API skeleton sesuai PRD Phase 1 - prasyarat halaman publik.",
+"10e.":"Rampungkan halaman publik layanan/lokasi 3 titik - basis konten O-03.",
+"10f.":"Selesaikan CMS SharePoint + alur validasi-publikasi (PRD Phase 3).",
+"10g.":"Bangun fact region + admin scope RBAC (QDI STEP 4-5).",
+"10h.":"Konfirmasi PM deklarasi bulan kosong (khusus KH/Impor kosong total) & selesaikan re-upload Yuanita.",
+"10i.":"Tetapkan IKU + koordinat resmi 4 satpel ke validator.",
+"10j.":"Siapkan jendela integrasi: serving+API+registry+7 halaman (14-27 Nov) - jangan digeser lagi.",
+"10k.":"Susun F-21 matriks kriteria UAT sebelum UAT 28 Nov.",
+"10l.":"Jalankan UAT 4 jalur 28 Nov-5 Des + tutup temuan F-09.",
+"10m.":"SOP + pelatihan + publikasi atomik + kontrol produksi (16 Nov-10 Des).",
+"13–14.":"Tulis laporan kemajuan #1 (s.d. 31 Okt) & #2 (s.d. 30 Nov) - bukti kemajuan wajib termin.",
+"15.":"UAT terintegrasi 28 Nov-5 Des: siapkan skenario dari F-21, catat temuan ke F-09.",
+"16.":"Uji independen 5-7 Des: jadwalkan Zulfianto + akses baca.",
+"17.":"Laporan kemajuan #3 s.d. 6 Des + pengawasan akhir.",
+"18.":"BA Pemeriksaan 7-8 Des: cek kelengkapan bukti sebelum BA.",
+"19.":"BA Serah Terima 8-9 Des: Alfian ke PPK, lampiran akses lengkap.",
+"20.":"BAST + Laporan Akhir + Evaluasi s.d. 10 Des: pagar tutup tahun.",
+"27.":"Pastikan bukti pendaftaran NRK (A/049...) terunggah ke sheet hari ini; bila ada SP belum terdaftar, daftar hari-yang-sama sekarang (ketentuan satker 16 Okt).",
+"25.":"Usulkan jadwal ulang rapat evaluasi KaBalai; siapkan bukti SP/checkout 10/11 item saat tayang.",
+"26.":"Telaah F-30 (buffer >=1 jam) lalu SP sewa terbit s.d. Jumat 23 Okt.",
+"24.":"Cek 10/11 item: sisa Belum Pesan segera ditindak; bila semua pesan, posisi aman.",
+"PW6.":"Verifikasi bukti pesan 5 item IQ2 hari ini; hasil dicatat di checklist pengawasan.",
+"PW13.":"Lengkapi F-KB per SP & arsipkan; jadi lampiran pembayaran.",
+"PW10.":"Pengawalan instalasi per titik sesuai jadwal 3-7 Nov; hadir & foto bukti."};
 (DATAB?DATAB.rows:[]).forEach(function(r){
 var it=String(r["Item"]||"").replace(/\*+/g,"");if(!it)return;
 var stt=String(r["Status Inaproc"]||"");
@@ -406,7 +431,7 @@ if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"Persiapan",nm:it,isi:AKSI[aks
 if(r.st!=="late")return;
 var key=r.id+". "+r.label;var aksiKey=null;
 Object.keys(AKSI).forEach(function(k){if(aksiKey===null&&key.indexOf(k)===0)aksiKey=k;});
-var aksi=aksiKey?AKSI[aksiKey]:"Perbarui status nyata di F-27 (terlaksana / digeser dengan BA) - jangan biarkan menggantung tanpa catatan.";
+var aksi=aksiKey?AKSI[aksiKey]:"Perlu pemetaan aksi - perbarui status nyata di F-27 dulu (terlaksana / digeser dengan BA), jangan biarkan menggantung tanpa catatan.";
 A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:key,
  isi:aksi,
  batas:"Jendela F-17 (lihat Timeline TIM)",lvl:2,lvlTx:"TELAT - ADA CATATAN"});});
