@@ -176,6 +176,7 @@ footer b{color:var(--ink2)}
 <button data-t="pengawas" type="button">Tim Pengawas</button>
 </div>
 <div class="note" id="noteB">Menampilkan seluruh item belanja K-1.</div>
+<div class="note" id="lensNoteB" style="color:var(--pri)"></div>
 <div id="list"></div>
 </section>
 <!-- ===== VIEW: TIMELINE ===== -->
@@ -326,8 +327,9 @@ c.innerHTML='<div class="stamp">'+stampId(p)+'</div><div class="nm">'+nm+"</div>
 L.appendChild(c);});
 var sy=DATAB.sync||{};document.getElementById("sync").hidden=false;document.getElementById("syncTxt").textContent=(sy.hari?sy.hari+", ":"")+(sy.tanggal||"")+(sy.jam?" — "+sy.jam:"");S.innerHTML='<div class="stat k-done"><b>'+tampil+"</b><span>Item tampil</span></div>"+
 '<div class="stat"><b>'+sp+"/"+ROWS.length+"</b><span>Sudah pesan</span></div>"+
-'<div class="stat k-late"><b>'+kr+"</b><span>Titik kritis</span></div>"+
+'<div class="stat k-late"><b>'+kr+"</b><span>NRK LS belum terdaftar</span></div>"+
 '<div class="stat"><b>'+fD(new Date().toISOString())+"</b><span>WITA dibuka</span></div>";
+var lnb=document.getElementById("lensNoteB");if(lnb)lnb.textContent="Catatan: menu GAP/Deviasi memakai lensa lebih luas - menambah tahapan F-27 telat & item belum pesan. Angka bisa berbeda karena lensa berbeda, bukan data berbeda.";
 document.getElementById("noteB").textContent=KETB[MODEB]||KETB.all;}
 document.getElementById("tabsB").addEventListener("click",function(e){
 var b=e.target.closest("button");if(!b)return;
