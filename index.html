@@ -410,7 +410,7 @@ document.querySelectorAll("#tabsT button").forEach(function(x){x.classList.toggl
 MODET=b.dataset.t;
 document.querySelectorAll("#tlbody [data-t]").forEach(function(el){
 var ok=(MODET==="all")||(el.dataset.t===MODET)||
-(el.dataset.t==="TIM PELAKSANA"&&((MODET==="PEL-BELANJA"&&el.dataset.sub==="BELANJA")||(MODET==="PEL-NONBELANJA"&&el.dataset.sub==="NON-BELANJA")));
+(el.dataset.t==="TIM PELAKSANA"&&((MODET==="PEL-BELANJA"&&el.dataset.sub==="BELANJA")||(MODET==="PEL-NONBELANJA"&&String(el.dataset.sub||"").indexOf("NON-BELANJA")===0)));
 if(el.classList.contains("subgrp")){ok=(MODET==="all")||(el.dataset.t===MODET&&el.dataset.sub===MODET.replace("PEL-",""))||(MODET==="PEL-BELANJA"&&el.dataset.sub==="BELANJA")||(MODET==="PEL-NONBELANJA"&&el.dataset.sub==="NON-BELANJA")||(MODET==="all");if(MODET==="all")ok=true;}
 el.style.display=ok?"":"none";});});
 /* ============ GAP / DEVIASI (alert-only) ============ */
