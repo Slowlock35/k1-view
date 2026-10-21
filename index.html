@@ -381,23 +381,35 @@ el.style.display=ok?"":"none";});});
 /* ============ GAP / DEVIASI (alert-only) ============ */
 function kumpulAlert(){
 var A=[];
+var AKSI={
+"GLM Coding Max Plan":"Cetak/unduh bukti pendaftaran NRK dari SAKTI, unggah ke sheet (kolom NRK) hari ini; tanpa itu SP2D GLM tertahan.",
+"Langganan internet satelit Tahuna kuota menengah 500GB/bulan":"Sama - NRK ke KPPN hari ini; koordinasi bendahara bila data SP tidak terbaca.",
+"Domain .id (Produksi)":"Tetapkan penyedia & terbitkan SP domain hari ini (jalur PL; nilai nego ~Rp219 rb); domain harus aktif sebelum instalasi 3-7 Nov.",
+"8. SP sewa managed service":"Deviasi historis (rencana 6-8 Okt, SP terbit 10 Okt) - SUDAH DITANGANI. Lanjutan nyata: BAPP/BAST per titik Rabu 21 Okt.",
+"9. Aktivasi langganan":"Deviasi historis (aktivasi 13 Okt) - SUDAH DITANGANI. Lanjutan nyata: bukti aktivasi lisensi ke F-05b.",
+"PW6":"Verifikasi bukti pesan 5 item IQ2 hari ini; hasil dicatat di checklist pengawasan.",
+"PW13":"Lengkapi F-KB per SP & arsipkan; jadi lampiran pembayaran.",
+"PW10":"Pengawalan instalasi per titik sesuai jadwal 3-7 Nov; hadir & foto bukti."};
 (DATAB?DATAB.rows:[]).forEach(function(r){
 var it=String(r["Item"]||"").replace(/\*+/g,"");if(!it)return;
 var stt=String(r["Status Inaproc"]||"");
 var ls=String(r["Mekanisme Bayar"]||"").indexOf("LS")>=0;
 var nrk=String(r["NRK Daftar KPPN"]||"").trim();var nrkOk=nrk&&!/up bendahara/i.test(nrk);
 var ttd=r["Tgl TTD SP"];
+var aksiKey=null;Object.keys(AKSI).forEach(function(k){if(aksiKey===null&&it.indexOf(k)===0)aksiKey=k;});
 if(stt==="Sudah Pesan"&&ls&&!nrkOk&&ttd){var d=hk(ttd,5);
-A.push({src:"BELANJA",tim:"Pelaksana + Pengawas",nm:it,isi:"Daftarkan NRK ke KPPN sekarang — tanpa ini SP2D tertahan.",
+A.push({src:"BELANJA",tim:"Bendahara + Pelaksana",nm:it,isi:AKSI[aksiKey]||"Daftarkan NRK ke KPPN hari ini.",
  batas:fD(d.toISOString())+" (5 HK - PER-9)",lvl:1,lvlTx:"SEGERA"});}
-if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"Persiapan",nm:it,isi:"Segerakan penetapan & pemesanan — item masih menyusul jalur.",
- batas:"Sebelum tagihan berjalan",lvl:2,lvlTx:"KEJAR"});}});
+if(stt==="Belum Pesan"){A.push({src:"BELANJA",tim:"Persiapan",nm:it,isi:AKSI[aksiKey]||"Tetapkan penyedia & terbitkan SP hari ini.",
+ batas:"Sebelum tagihan berjalan",lvl:2,lvlTx:"TINDAK LANJUTI"});}});
 (DATT?DATT.rows:[]).forEach(function(r){
 if(r.st!=="late")return;
-var cat=(/^10[a-m]$/i.test(String(r.id||""))||/portal/i.test(String(r.label||"")))?+" (catatan: belanja penopang portal—Azure SWA/logic/M365—sudah hijau di view Belanja; alert ini PEKERJAAN pembangunannya)":"";
-A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:r.id+". "+r.label,
- isi:"Tahap telat/deviasi terhadap jadwal F-27 — kejar penyelesaian atau update jadwal resmi."+cat,
- batas:"Ikuti jendela F-17",lvl:2,lvlTx:"TELAT"});});
+var key=r.id+". "+r.label;var aksiKey=null;
+Object.keys(AKSI).forEach(function(k){if(aksiKey===null&&key.indexOf(k)===0)aksiKey=k;});
+var aksi=aksiKey?AKSI[aksiKey]:"Perbarui status nyata di F-27 (terlaksana / digeser dengan BA) - jangan biarkan menggantung tanpa catatan.";
+A.push({src:"TIMELINE F-27",tim:r.team.replace("TIM ",""),nm:key,
+ isi:aksi,
+ batas:"Jendela F-17 (lihat Timeline TIM)",lvl:2,lvlTx:"TELAT - ADA CATATAN"});});
 A.sort(function(a,b){return a.lvl-b.lvl;});
 return A;}
 function updateBadge(){if(!DATAB||!DATT)return;var n=kumpulAlert().length;var gb=document.getElementById("gapBadge");gb.textContent=n;gb.style.display=n?"inline-block":"none";}
