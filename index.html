@@ -367,6 +367,7 @@ function subOf(r){if(r.team!=="TIM PELAKSANA")return "";return r.sub==="NON-BELA
 function cocok(r,t){if(t==="all")return true;if(t==="PEL-BELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="BELANJA";if(t==="PEL-NONBELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="NON-BELANJA";return r.team===t;}
 TEAMS.forEach(function(team){
 var rows=T.rows.filter(function(r){return r.team===team});
+if(team==="TIM PELAKSANA"){rows=rows.slice().sort(function(a,b){return (a.sub==="BELANJA"?0:1)-(b.sub==="BELANJA"?0:1);});}
 if(!rows.length)return;
 var done=rows.filter(function(d){return d.st==="done"}).length;
 var late=rows.filter(function(d){return d.st==="late"}).length;
