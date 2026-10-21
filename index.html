@@ -300,7 +300,11 @@ var b=e.target.closest("button");if(!b)return;
 document.querySelectorAll("#tabsB button").forEach(function(x){x.classList.toggle("on",x===b)});
 MODEB=b.dataset.t;if(DATAB)renderB();});
 /* ============ TIMELINE ============ */
-var D0=new Date("2026-09-22"),D1=new Date("2027-01-03"),SPAN=(D1-D0)/864e5;
+var _dmin=null,_dmax=null;
+(DATT.rows||[]).forEach(function(r){r.plan.forEach(function(p){p.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});r.real.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});
+var D0=(_dmin||new Date("2026-09-22")),D1=(_dmax||new Date("2027-01-03"));
+D0.setDate(D0.getDate()-2);D1.setDate(D1.getDate()+2);
+var SPAN=(D1-D0)/864e5;
 var MODET="all";
 var pct=function(iso){return ((new Date(iso)-D0)/864e5)/SPAN*100};
 var pcts=function(iso){return "calc(var(--lblw) + (100% - var(--lblw)) * "+(pct(iso)/100).toFixed(4)+")"};
@@ -316,9 +320,10 @@ ax.appendChild(s);});
 var lastSub="";
 var body=document.getElementById("tlbody");
 var wrap=document.createElement("div");wrap.className="tlwrap";wrap.appendChild(ax);
+var HARIINI=new Date();
 var today=document.createElement("div");today.className="tl-today";
-today.style.setProperty("--tp",(pct(HB)/100).toFixed(4));
-today.innerHTML="<b>HARI INI "+fD(HB)+"</b>";
+today.style.setProperty("--tp",(pct(HARIINI.toISOString().slice(0,10))/100).toFixed(4));
+today.innerHTML="<b>HARI INI "+fD(HARIINI.toISOString().slice(0,10))+"</b>";
 wrap.appendChild(today);
 function subOf(r){if(r.team!=="TIM PELAKSANA")return "";return r.sub==="NON-BELANJA (SISTEM)"?"NON-BELANJA":"BELANJA";}
 function cocok(r,t){if(t==="all")return true;if(t==="PEL-BELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="BELANJA";if(t==="PEL-NONBELANJA")return r.team==="TIM PELAKSANA"&&subOf(r)==="NON-BELANJA";return r.team===t;}
