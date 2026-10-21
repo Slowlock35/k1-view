@@ -301,7 +301,7 @@ document.querySelectorAll("#tabsB button").forEach(function(x){x.classList.toggl
 MODEB=b.dataset.t;if(DATAB)renderB();});
 /* ============ TIMELINE ============ */
 var _dmin=null,_dmax=null;
-(DATT.rows||[]).forEach(function(r){r.plan.forEach(function(p){p.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});r.real.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});
+((window.DATT&&DATT.rows)||[]).forEach(function(r){r.plan.forEach(function(p){p.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});r.real.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});
 var D0=(_dmin||new Date("2026-09-22")),D1=(_dmax||new Date("2027-01-03"));
 D0.setDate(D0.getDate()-2);D1.setDate(D1.getDate()+2);
 var SPAN=(D1-D0)/864e5;
@@ -312,6 +312,10 @@ var STL={done:"terlaksana",run:"berjalan",late:"telat/deviasi",plan:"terjadwal"}
 var TEAMS=["TIM PERSIAPAN","TIM PELAKSANA","TIM PENGAWAS"];
 function renderT(){
 var T=DATT,HB=T.hari;
+var _dmin=null,_dmax=null;
+(T.rows||[]).forEach(function(r){r.plan.forEach(function(p){p.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});r.real.forEach(function(x){var d=new Date(x);if(!isNaN(d)){if(!_dmin||d<_dmin)_dmin=d;if(!_dmax||d>_dmax)_dmax=d;}});});
+if(_dmin){D0=new Date(_dmin.getTime()-172800000);D1=new Date(_dmax.getTime()+172800000);SPAN=(D1-D0)/864e5;}
+
 var ax=document.createElement("div");ax.className="tl-axis";
 [["2026-09-22","22 Sep"],["2026-10-01","1 Okt"],["2026-10-15","15 Okt"],["2026-11-01","1 Nov"],["2026-11-15","15 Nov"],["2026-12-01","1 Des"],["2026-12-15","15 Des"],["2027-01-03","31 Des"]].forEach(function(m,i,arr){
 var s=document.createElement("span");s.style.left=pct(m[0])+"%";s.textContent=m[1];
