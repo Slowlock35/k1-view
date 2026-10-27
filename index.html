@@ -524,11 +524,11 @@ document.getElementById("hLede").innerHTML=op
 if(tl&&DATT){renderT();statsT();}else if(gp){renderG();}else if(DATAB){renderB();updateBadge();}});
 /* ============ MUAT ============ */
 function muat(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
-muat("data.json").then(function(d){DATAB=d;updateBadge();if(!document.getElementById("v-gap").hidden&&!document.getElementById("v-timeline").hidden)renderG();
+muat("data.json?v="+Date.now()).then(function(d){DATAB=d;updateBadge();if(!document.getElementById("v-gap").hidden&&!document.getElementById("v-timeline").hidden)renderG();
 document.querySelector("#v-belanja .sub");
 renderB();updateBadge();}).catch(function(e){
 document.getElementById("list").innerHTML='<div class="card"><div class="nm">Gagal memuat data belanja</div><div class="meta">'+e+'</div></div>';});
-muat("timeline.json").then(function(d){DATT=d;updateBadge();if(!document.getElementById("v-gap").hidden)renderG();}).catch(function(e){
+muat("timeline.json?v="+Date.now()).then(function(d){DATT=d;updateBadge();if(!document.getElementById("v-gap").hidden)renderG();}).catch(function(e){
 document.getElementById("devbox").hidden=false;
 document.getElementById("devbox").innerHTML="Gagal memuat timeline: "+e;});
 </script></body></html>
